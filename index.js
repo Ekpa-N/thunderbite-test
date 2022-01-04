@@ -36,6 +36,7 @@ resize()
 let counter = 5
 let checkFlicker = 0
 let flickerCounter = 0
+let boltFlick = false
 
 function letterResize (width) {
     width <= 400 ? spritesArray.map(sprite => mobileView(sprite, app)):
@@ -46,6 +47,7 @@ function letterResize (width) {
 
 setTimeout(vegasRender, 500)
 setTimeout(renderLetters, 1200)
+setTimeout(boltFlicker,1700)
 
 function vegasRender() {
     app.stage.addChild(spritesArray[2].sprite)
@@ -73,8 +75,20 @@ function flicker() {
     },100)
 }
 
-
-
+function boltFlicker () {
+    app.stage.addChild(spritesArray[3].sprite)           
+    app.stage.addChild(spritesArray[4].sprite)           
+    boltFlick = !boltFlick           
+    setInterval(()=>{
+        if(boltFlick){
+            spritesArray[4].sprite.alpha = 0
+            boltFlick = !boltFlick
+        } else {
+            spritesArray[4].sprite.alpha = 1
+            boltFlick = !boltFlick
+        } 
+    },70)
+}
 
 function renderLetters() {
     let lightingInt = setInterval(()=>{

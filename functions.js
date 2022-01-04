@@ -62,21 +62,3 @@ export function laptopView(theSprite, app) {
     }
 }
 
-function bolting () {
-    let boltFlickering = setInterval(()=>{
-        if(flickerCounter < 4 && checkFlicker === 1){
-            flickerCounter = flickerCounter + 1
-            checkFlicker = checkFlicker - 1
-            spritesArray[2].sprite.alpha = checkFlicker            
-            spritesArray[5].sprite.alpha = checkFlicker            
-        } else if(flickerCounter < 4 && checkFlicker === 0){
-            flickerCounter = flickerCounter + 1
-            checkFlicker = checkFlicker + 1
-            spritesArray[2].sprite.alpha = checkFlicker
-            spritesArray[5].sprite.alpha = checkFlicker
-        } else {
-            clearInterval(vegasFlickering)
-            console.log("done")
-        }
-    },100)
-}
