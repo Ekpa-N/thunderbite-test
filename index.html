@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Node</title>
+    <link rel="stylesheet" href="./style/index.css">
+  </head>
+  <body>
+    <div id="main-div">
+      <canvas id="canvas-one"></canvas>
+    </div>
+    <script src="./pixi/pixi.js"></script>
+    <script type="module" src="./index.js"></script>
+    <script type="text/javascript">
+    let type = "WebGL";
+    if (!PIXI.utils.isWebGLSupported()) {
+      type = "canvas";
+    }
+
+    PIXI.utils.sayHello(type);
+  </script>
+</body>
+</html>

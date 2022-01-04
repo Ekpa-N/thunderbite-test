@@ -1,0 +1,33 @@
+#main-div {
+    background-color: aquamarine;
+    width: 800px;
+    height: 155px;
+    margin: auto;
+}
+
+canvas {
+    display: block;
+}
+
+@media only screen and (max-width: 800px) {
+    #main-div {
+        width: 600px;
+        height: 155px;
+        margin: auto;
+    }    
+}
+@media only screen and (max-width: 600px) {
+    #main-div {
+        width: 370px;
+        height: 90px;
+        margin: auto;
+    }    
+}
+
+@media only screen and (max-width: 400px) {
+    #main-div {
+        width: 280px;
+        height: 80px;
+        margin: auto;
+    }    
+}
