@@ -1,27 +1,43 @@
+// importing necessary files
 import { spriteMaker, mobileLargeView, mobileView, tabletView, laptopView } from "./functions.js"
 import { spriteData } from "./spritesData.js"
+
+// storing dom elements
 const mainDiv = document.getElementById("main-div")
 const canvas = document.getElementById("canvas-one")
 
-// Rewriting for more reusable code
+// Setting pixi functions to variables for easier readability
 const Application = PIXI.Application,
 Sprite = PIXI.Sprite
 
+// variables
+let counter = 5
+let checkFlicker = 0
+let flickerCounter = 0
+let boltFlick = false
 let spritesArray = []
+
+//creating sprites and storing in array
 spriteMaker(spriteData, spritesArray)
 
-// create pixi application
+// creating pixi application
 const app = new Application ({
     view: canvas,
     autoResize: true,
     backgroundColor: 333
 })
-// mainDiv.appendChild(app.view)
+
+// Adding resize event listener for responsiveness
 window.addEventListener('resize',resize)
 
+// storing the background images for reuse
 const canvasHeader = spritesArray.find(item => item.name === "header")
 const theShowDown = spritesArray.find(item => item.name === "showdown")
 
+app.stage.addChild(canvasHeader.sprite)
+app.stage.addChild(theShowDown.sprite)
+
+// Resize function
 function resize() {
     const parent = app.view.parentNode    
     app.renderer.resize(parent.clientWidth, parent.clientHeight)
@@ -33,11 +49,8 @@ function resize() {
 }
 resize()
 
-let counter = 5
-let checkFlicker = 0
-let flickerCounter = 0
-let boltFlick = false
 
+// reizing the showdown text
 function letterResize (width) {
     width <= 400 ? spritesArray.map(sprite => mobileView(sprite, app)):
     width <=600 ? spritesArray.map(sprite => mobileLargeView(sprite, app)):
@@ -45,10 +58,14 @@ function letterResize (width) {
     spritesArray.map(sprite => laptopView(sprite, app))
 }
 
+
+// timers for light flickering
 setTimeout(vegasRender, 500)
 setTimeout(renderLetters, 1200)
 setTimeout(boltFlicker,1700)
 
+
+// timer functions
 function vegasRender() {
     app.stage.addChild(spritesArray[2].sprite)
     app.stage.addChild(spritesArray[5].sprite)
@@ -105,74 +122,4 @@ function renderLetters() {
 
 
 
-app.stage.addChild(canvasHeader.sprite)
-app.stage.addChild(theShowDown.sprite)
-// spritesArray.forEach(sprite => app.stage.addChild(sprite.sprite))
 
-
-// function setup() {
-//     // create the sprite
-//     const sprite = new Sprite.from(theImages[2])
-//     const spriteTwo = new Sprite.from(theImages[1])
-//     const showdownOff = new Sprite.from(theImages[3])
-//     const letterS = new Sprite.from(theImages[4])
-
-//     // position the sprite
-//     sprite.position.set(342, -52)    
-//     spriteTwo.position.set(380,-8)
-//     letterS.position.set(-60,4)
-
-//     // Resize the sprite
-//     sprite.width = 157
-//     sprite.height = 195
-//     spriteTwo.height = 116
-//     spriteTwo.width = 80
-
-
-//     // Stage the sprite
-//     app.stage.addChild(spriteTwo)
-//     app.stage.addChild(showdownOff)
-//     app.stage.addChild(letterS)
-    
-//     // move the sprite
-//     // app.ticker.add((delta) => gameLoop(delta))
-
-//     // function flickerTimer () {
-//     //     const flicker = setInterval(() => {
-//     //         if ((flickerCounter < 20) && (checker === true)) {
-//     //             app.stage.removeChild(spriteTwo)
-//     //             app.stage.addChild(sprite)
-//     //             checker = !checker
-//     //             flickerCounter = flickerCounter + 1
-//     //         } else if((flickerCounter < 20) && (checker === false)) {
-//     //             app.stage.removeChild(sprite)
-//     //             app.stage.addChild(spriteTwo)
-//     //             checker = !checker
-//     //             flickerCounter = flickerCounter + 1
-//     //         } else {
-//     //             clearInterval(flicker)
-//     //             flickerCounter = 0
-//     //         }
-//     //     }, 70)
-//     // }
-
-//     // setInterval(flickerTimer, 5000)
-
-//     // function flickerControl() {
-//     //     clearInterval(flicker)
-//     // }
-    
-//     // function gameLoop(delta) {
-//     //     //Move the sprite 1 pixel 
-//     //     // sprite.x += 1;
-//     //     if (checker) {            
-//     //         app.stage.removeChild(spriteTwo)
-//     //         app.stage.addChild(sprite)
-//     //         checker = !checker
-//     //     } else {
-//     //         app.stage.removeChild(sprite)            
-//     //         app.stage.addChild(spriteTwo)            
-//     //         checker = !checker
-//     //     }
-//     //   }
-// }
