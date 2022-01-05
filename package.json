@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "live-server && http-server -a localhost -p 4000 -o"
+    "start": "live-server && http-server -a localhost -p 4000 -o",
+    "server":"nodemon server.js"
   },
   "author": "Ekpa",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.24.0",
     "cors": "^2.8.5",
     "esm": "^3.2.25",
     "express": "^4.17.2"

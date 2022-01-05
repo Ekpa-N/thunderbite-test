@@ -380,3 +380,22 @@ export const spriteData = [
         },
     },
 ]
+
+// The wheel resources
+export const wheelData = [
+    {
+        url: './img/marker.png',
+        name:'marker', 
+        class: 'marker'      
+    },
+    {
+        url: './img/wheel.png',
+        name:'wheel',
+        class: 'wheel'
+    },
+    {
+        url: './img/btn-spin.png',
+        name:'button',
+        class: 'wheel'
+    },    
+]
