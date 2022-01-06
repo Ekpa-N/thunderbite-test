@@ -169,8 +169,22 @@ for(let i=0; i<wheelData.length; i++) {
     spunWheel.push(number)
     button.style.display = 'none'
     spinRange = Math.floor(wheelPositions[number] + Math.random() * 90)
-    theWheel.style.transition = 'all 2s ease-out'
-    theWheel.style.transform = `rotate(${spinRange}deg)`
+    if(navigator.userAgent.match("Chrome")){
+		theWheel.style.WebkitTransition = 'all 2s ease-out'
+		theWheel.style.WebkitTransform = `rotate(${spinRange}deg)`
+	} else if(navigator.userAgent.match("Firefox")){
+		theWheel.style.MozTransition = 'all 2s ease-out'
+		theWheel.style.MozTransform = `rotate(${spinRange}deg)`
+	} else if(navigator.userAgent.match("MSIE")){
+		theWheel.style.msTransition = 'all 2s ease-out'
+		theWheel.style.msTransform = `rotate(${spinRange}deg)`
+	} else if(navigator.userAgent.match("Opera")){
+		theWheel.style.OTransition = 'all 2s ease-out'
+		theWheel.style.OTransform = `rotate(${spinRange}deg)`
+	} else {
+		theWheel.style.transition = 'all 2s ease-out'
+        theWheel.style.transform = `rotate(${spinRange}deg)`
+	}
 }
 
 // adding event listeners to wheels and buttons
@@ -208,9 +222,23 @@ function resetWheel() {
         wheels.push(item) : buttons.push(item)
     })
     const currentSpinRange = 0
-    wheels.forEach((wheel) => {
-        wheel.style.transition = 'all 1s ease-out'
-        wheel.style.transform = `rotate(${currentSpinRange}deg)`
+    wheels.forEach((theWheel) => {
+        if(navigator.userAgent.match("Chrome")){
+            theWheel.style.WebkitTransition = 'all 1s ease-out'
+            theWheel.style.WebkitTransform = `rotate(${currentSpinRange}deg)`
+        } else if(navigator.userAgent.match("Firefox")){
+            theWheel.style.MozTransition = 'all 1s ease-out'
+            theWheel.style.MozTransform = `rotate(${currentSpinRange}deg)`
+        } else if(navigator.userAgent.match("MSIE")){
+            theWheel.style.msTransition = 'all 1s ease-out'
+            theWheel.style.msTransform = `rotate(${currentSpinRange}deg)`
+        } else if(navigator.userAgent.match("Opera")){
+            theWheel.style.OTransition = 'all 1s ease-out'
+            theWheel.style.OTransform = `rotate(${currentSpinRange}deg)`
+        } else {
+            theWheel.style.transition = 'all 1s ease-out'
+            theWheel.style.transform = `rotate(${currentSpinRange}deg)`
+        }
     })
     buttons.forEach((button, index) => {
         button.style.display = 'inline-block'
