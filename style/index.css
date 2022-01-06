@@ -5,6 +5,12 @@
     margin: auto;
 }
 
+#caption {
+    text-align: center;
+    height: 1%;
+    width: 90%;
+    margin: auto;
+}
 #wheel-div {
     display: flex;
     width: 800px;
@@ -25,15 +31,6 @@
     width: 100px;
 }
 
-#reset{
-    margin-left: 48%;
-    margin-top: 20px;
-    height: 20px;
-    width:70px;
-    border: 1px solid peru;
-    padding: auto;
-    text-align: center;
-}
 .wheel-holder{
     display: flex;
     flex-direction: column;
@@ -51,7 +48,20 @@ canvas {
     display: block;
 }
 
-@media only screen and (max-width: 800px) {
+#timer {
+    width: 60px;
+    height: 30px;
+    display: flex;
+    margin: auto;
+}
+
+.time {
+    display: inline-block;
+    font-size: 30px;
+}
+
+@media only screen and (max-width: 800px) 
+ {
     #main-div {
         width: 600px;
         height: 155px;
@@ -67,6 +77,12 @@ canvas {
     .wheel {
         height: 100px;
         width: 100px;
+    }
+    #caption {
+        text-align: center;
+        height: 1%;
+        width: 80%;
+        margin: auto;
     }
 }
 @media only screen and (max-width: 600px) {
@@ -85,6 +101,12 @@ canvas {
         height: 60px;
         width: 60px;
     }
+    #caption {
+        text-align: center;
+        height: 1%;
+        width: 80%;
+        margin: auto;
+    }
 }
 
 @media only screen and (max-width: 400px) {
@@ -102,5 +124,11 @@ canvas {
     .wheel {
         height: 80px;
         width: 80px;
+    }
+    #caption {
+        text-align: center;
+        height: 1%;
+        width: 90%;
+        margin: auto;
     }
 }

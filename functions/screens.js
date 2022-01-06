@@ -1,18 +1,4 @@
-export function spriteMaker(array, array2) {
-    array.forEach((item) => {
-        let sprite = {}
-        sprite.sprite = PIXI.Sprite.from(item.url)
-        sprite.name = item.name
-        sprite.smallMobile = item.smallMobile
-        sprite.largeMobile = item.largeMobile
-        sprite.tablet = item.tablet
-        sprite.laptop = item.laptop
-        array2.push(sprite)
-    })
-    console.log(array2)
-}
-
-
+//screen views
 export function mobileView(theSprite, app) {
     if(theSprite.name === 'header' || theSprite.name === 'showdown') {
         return
@@ -22,7 +8,6 @@ export function mobileView(theSprite, app) {
         sprite.position.set(positionX, positionY)
         sprite.height = height
         sprite.width = width
-        // app.stage.addChild(sprite)
     }
 }
 export function tabletView(theSprite, app) {
@@ -34,7 +19,6 @@ export function tabletView(theSprite, app) {
         sprite.position.set(positionX, positionY)
         sprite.height = height
         sprite.width = width
-        // app.stage.addChild(sprite)
     }
 }
 export function mobileLargeView(theSprite, app) {
@@ -46,7 +30,6 @@ export function mobileLargeView(theSprite, app) {
         sprite.position.set(positionX, positionY)
         sprite.height = height
         sprite.width = width
-        // app.stage.addChild(sprite)
     }
 }
 export function laptopView(theSprite, app) {
@@ -58,7 +41,5 @@ export function laptopView(theSprite, app) {
         sprite.position.set(positionX, positionY)
         sprite.height = height
         sprite.width = width
-        // app.stage.addChild(sprite)
     }
 }
-

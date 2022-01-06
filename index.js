@@ -1,22 +1,25 @@
 // importing necessary files
-import { spriteMaker, mobileLargeView, mobileView, tabletView, laptopView } from "./functions.js"
+import{ mobileLargeView, mobileView, tabletView, laptopView } from './functions/screens.js'
+import { jackpot, flicker, spriteMaker } from "./functions/effects.js"
 import { spriteData, wheelData } from "./spritesData.js"
 
-// storing dom elements
+
+// dom elements
 const wheelDiv = document.getElementById("wheel-div"),
-      canvas = document.getElementById("canvas-one")
+      canvas = document.getElementById("canvas-one"),
+      msHundreds = document.getElementById('ms-hundreds'),
+      seconds = document.getElementById('seconds')
 
 
-// Setting pixi functions to variables for easier readability
+// Setting pixi functions to variables
 const Application = PIXI.Application,
 Sprite = PIXI.Sprite
 
-// variables
+// utility variables
 let counter = 5,
-    checkFlicker = 0,
-    flickerCounter = 0,
-    boltFlick = false,
-    spritesArray = []
+    spritesArray = [],
+    secs = 5,
+    msHuns = 10
 
 
 //creating sprites and storing in array
@@ -37,12 +40,9 @@ const canvasHeader = spritesArray.find(item => item.name === "header")
 const theShowDown = spritesArray.find(item => item.name === "showdown")
 
 
-
+// staging the background sprites
 app.stage.addChild(canvasHeader.sprite)
 app.stage.addChild(theShowDown.sprite)
-
-
-// Rotate the wheel
 
 
 // Resize function
@@ -68,109 +68,81 @@ function letterResize (width, spritesArray) {
 
 
 // timers for light flickering
-// setTimeout(vegasRender, 500)
-// setTimeout(renderLetters, 1200)
-// setTimeout(boltFlicker,1700)
+setTimeout(vegasRender, 500)
+setTimeout(renderLetters, 1200)
+setTimeout(boltFlicker,2000)
+setTimeout(mustDrop, 3000)
+// setTimeout(()=>{jackpot(spritesArray, wheelElements, flicker)}, 5000)
 
 
 // timer functions
 function vegasRender() {
     app.stage.addChild(spritesArray[2].sprite)
     app.stage.addChild(spritesArray[5].sprite)
-    checkFlicker = 1
-    setTimeout(flicker, 700)    
+    setTimeout(()=>{flicker(spritesArray[2], spritesArray[5])}, 700)    
 }
 
-function flicker() {
-    let vegasFlickering = setInterval(()=>{
-        if(flickerCounter < 4 && checkFlicker === 1){
-            flickerCounter = flickerCounter + 1
-            checkFlicker = checkFlicker - 1
-            spritesArray[2].sprite.alpha = checkFlicker            
-            spritesArray[5].sprite.alpha = checkFlicker            
-        } else if(flickerCounter < 4 && checkFlicker === 0){
-            flickerCounter = flickerCounter + 1
-            checkFlicker = checkFlicker + 1
-            spritesArray[2].sprite.alpha = checkFlicker
-            spritesArray[5].sprite.alpha = checkFlicker
-        } else {
-            clearInterval(vegasFlickering)
-            console.log("done")
-        }
-    },100)
+function mustDrop() {
+    app.stage.addChild(spritesArray[14].sprite)
+    setTimeout(()=>{flicker(spritesArray[14])}, 100) 
 }
+
 
 function boltFlicker () {
     app.stage.addChild(spritesArray[3].sprite)           
-    app.stage.addChild(spritesArray[4].sprite)           
-    boltFlick = !boltFlick           
+    app.stage.addChild(spritesArray[4].sprite) 
+    let checkFlicker = 0,
+    flickerCounter = 0
+let flicker = setInterval(()=>{
+if(flickerCounter < 5 && checkFlicker === 1){
+    flickerCounter = flickerCounter + 1
+    checkFlicker = checkFlicker - 1
+    spritesArray[4].sprite.alpha = checkFlicker            
+} else if(flickerCounter < 5 && checkFlicker === 0){
+    flickerCounter = flickerCounter + 1
+    checkFlicker = checkFlicker + 1
+    spritesArray[4].sprite.alpha = checkFlicker            
+} else {
+    clearInterval(flicker)
+    checkFlicker = 0
+    flickerCounter = 0
+}
+},100)         
     setInterval(()=>{
-        if(boltFlick){
-            spritesArray[4].sprite.alpha = 0
-            boltFlick = !boltFlick
-        } else {
-            spritesArray[4].sprite.alpha = 1
-            boltFlick = !boltFlick
-        } 
-    },70)
+        let flickering = setInterval(()=>{
+            if(flickerCounter < 5 && checkFlicker === 1){
+                flickerCounter = flickerCounter + 1
+                checkFlicker = checkFlicker - 1
+                spritesArray[4].sprite.alpha = checkFlicker            
+            } else if(flickerCounter < 5 && checkFlicker === 0){
+                flickerCounter = flickerCounter + 1
+                checkFlicker = checkFlicker + 1
+                spritesArray[4].sprite.alpha = checkFlicker            
+            } else {
+                clearInterval(flickering)
+                checkFlicker = 0
+                flickerCounter = 0
+            }
+            },100) 
+    }, 10000)
 }
 
 function renderLetters() {
     let lightingInt = setInterval(()=>{
         counter < 13 ? 
         (counter = counter + 1, 
-        console.log(counter),
         app.stage.addChild(spritesArray[counter].sprite)) :
         (counter = 5,
-        console.log(counter),
         clearInterval(lightingInt))
     }, 180)
 }
 
 
 // setting up the spinners
-const reset = document.getElementById("reset")
 let spinRange = 0
-let canReset = false
 let spunWheel = []
-
-// spin function
-function spin(theWheel, button) {
-    reset.removeEventListener('click', resetWheel)
-    button.removeEventListener('click', spin)
-    button.style.display = 'none'
-    spinRange = Math.floor(2520 + Math.random() * 100)
-    theWheel.style.transition = 'all 5s ease-out'
-    theWheel.style.transform = `rotate(${spinRange}deg)`
-    spunWheel.push("spun")
-}
-
-// checking a wheel spin has ended
-function spun() {
-    spunWheel.length === 3 ?
-    reset.addEventListener('click', resetWheel) : null
-    spunWheel = []   
-}
-
-// reset function to reset all wheels
-function resetWheel() {
-    reset.removeEventListener('click', resetWheel)
-    let wheels = []
-    let buttons =[]
-    wheelStuff.map((item) => {
-        item.name === "wheel" ?
-        wheels.push(item) : buttons.push(item)
-    })
-    const currentSpinRange = 0
-    wheels.forEach((wheel) => {
-        wheel.style.transition = 'all 1s ease-out'
-        wheel.style.transform = `rotate(${currentSpinRange}deg)`
-    })
-    buttons.forEach((button) => {
-        button.style.display = 'inline-block'
-        button.addEventListener('click', spin)
-    })
-}
+const wheelPositions = [5403, 5493, 5583, 5673]
+let isTimer = false
 
 // creating wheels
 for(let i=0; i<wheelData.length; i++) {
@@ -186,15 +158,101 @@ for(let i=0; i<wheelData.length; i++) {
     wheelDiv.appendChild(wheelHolder)
 }
 
+
+// SPIN FUNCTION
+    async function spin(e, theWheel, button) {
+    if(!isTimer) {
+        clockTimer()
+        isTimer = true
+    }
+    let number = await wheelPicker()
+    spunWheel.push(number)
+    button.style.display = 'none'
+    spinRange = Math.floor(wheelPositions[number] + Math.random() * 90)
+    theWheel.style.transition = 'all 2s ease-out'
+    theWheel.style.transform = `rotate(${spinRange}deg)`
+}
+
 // adding event listeners to wheels and buttons
-const wheelStuff = Array.from(document.getElementsByClassName("wheel"))
-wheelStuff.forEach((item, index) => {
-    index % 2 === 0 ?
-    item.addEventListener('transitionend', spun) :
-    index % 2 !== 0 ?
-    item.addEventListener('click', () => spin(wheelStuff[index - 1], item)) :
-    null   
+const wheelElements = Array.from(document.getElementsByClassName("wheel"))
+wheelElements.forEach((item, index) => {
+    if(item.name === 'button') {
+        item.addEventListener('click', (e) => spin(e, wheelElements[index - 1], item))
+    } else {
+        item.addEventListener('transitionend', () => {spun(spunWheel)})
+    }
 })
 
+// checking a wheel spin has ended
+function spun(array) {
+    if (array.length === 3) {
+        if (array[0] === array[1] && array[0] === array[2]) {
+            setTimeout(()=>{
+                jackpot(spritesArray, wheelElements, flicker)
+            },1500)
+            spunWheel = []
+        } else {
+            console.log("Try again")
+            spunWheel = []
+            console.log(spunWheel)
+        }
+    } else {}      
+}
+
+// reset function to reset all wheels
+function resetWheel() {
+    let wheels = []
+    let buttons = []
+    wheelElements.map((item) => {
+        item.name === "wheel" ?
+        wheels.push(item) : buttons.push(item)
+    })
+    const currentSpinRange = 0
+    wheels.forEach((wheel) => {
+        wheel.style.transition = 'all 1s ease-out'
+        wheel.style.transform = `rotate(${currentSpinRange}deg)`
+    })
+    buttons.forEach((button, index) => {
+        button.style.display = 'inline-block'
+    })
+}
 
 
+
+async function wheelPicker()  {
+    let data = await axios.get('http://localhost:5000/spinner')
+    let number = await data.data.POSITION
+    return number
+  };
+
+
+
+
+// Countdown Timer
+function clockTimer() { 
+    isTimer = true
+    seconds.innerText = secs
+  let microTens = setInterval(secondsCounter, 100)
+  function secondsCounter() {
+      if(msHuns === 10) {
+        msHundreds.innerText = msHuns
+        msHuns -= 1
+      } else if(msHuns > 0 && msHuns <= 10 && secs >= 0) {
+        msHundreds.innerText =  "0" + msHuns
+          msHuns -= 1
+      } else if (msHuns === 0 && secs > 0) {
+          secs -= 1
+          msHundreds.innerText =  "0" + msHuns
+          seconds.innerText = secs
+          msHuns = 10          
+      } else if (msHuns === 0 && secs === 0) {
+        msHundreds.innerText =  '00'
+        seconds.innerText = '0'
+          msHuns = 10
+          secs = 4
+          clearInterval(microTens)
+          resetWheel()
+          isTimer = false
+      }
+  }
+}

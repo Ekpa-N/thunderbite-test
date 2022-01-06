@@ -6,21 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Node</title>
     <link rel="stylesheet" href="./style/index.css">
+    <script src="./node_modules/axios/dist/axios.min.js"></script>
   </head>
   <body>
     <div id="main-div">
       <canvas id="canvas-one"></canvas>      
     </div>
 
-    <div id="wheel-div">
-      <!-- <div class="wheel-holder">
-      <img class="marker" src="./img/marker.png" alt="">
-      <img id="wheel" class="wheel" src="./img/wheel.png" alt="">
-      <img id="button" class="wheel" src="./img/btn-spin.png" alt="">
-      </div> -->
-    </div>
+    <div id="wheel-div"></div>
 
-    <button id="reset">RESET</button>
+    <div id="timer">
+      <div class="time digit" id="seconds">0</div>
+      <div class="time" id="colon">:</div>
+      <div class="time digit" id="ms-hundreds">00</div>
+  </div>
+
+  <div id="caption">Spin the three wheels before the timer runs out</div>
 
     <script src="./pixi/pixi.js"></script>
     <script type="module" src="./index.js"></script>
