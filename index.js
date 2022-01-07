@@ -8,7 +8,8 @@ import { spriteData, wheelData } from "./spritesData.js"
 const wheelDiv = document.getElementById("wheel-div"),
       canvas = document.getElementById("canvas-one"),
       msHundreds = document.getElementById('ms-hundreds'),
-      seconds = document.getElementById('seconds')
+      seconds = document.getElementById('seconds'),
+      testing = document.getElementById('testing')
 
 
 // Setting pixi functions to variables
@@ -29,7 +30,7 @@ spriteMaker(spriteData, spritesArray)
 const app = new Application ({
     view: canvas,
     autoResize: true,
-    backgroundColor: 333
+    backgroundColor: 333,
 })
 
 // Adding resize event listener for responsiveness
@@ -170,19 +171,19 @@ for(let i=0; i<wheelData.length; i++) {
     button.style.display = 'none'
     spinRange = Math.floor(wheelPositions[number] + Math.random() * 90)
     if(navigator.userAgent.match("Chrome")){
-		theWheel.style.WebkitTransition = 'all 2s ease-out'
-		theWheel.style.WebkitTransform = `rotate(${spinRange}deg)`
+		// theWheel.style.WebkitTransition = 'all 2s ease-out'
+		theWheel.style.webkitTransform = `rotate(${spinRange}deg)`
 	} else if(navigator.userAgent.match("Firefox")){
-		theWheel.style.MozTransition = 'all 2s ease-out'
+		// theWheel.style.MozTransition = 'all 2s ease-out'
 		theWheel.style.MozTransform = `rotate(${spinRange}deg)`
 	} else if(navigator.userAgent.match("MSIE")){
-		theWheel.style.msTransition = 'all 2s ease-out'
+		// theWheel.style.msTransition = 'all 2s ease-out'
 		theWheel.style.msTransform = `rotate(${spinRange}deg)`
 	} else if(navigator.userAgent.match("Opera")){
-		theWheel.style.OTransition = 'all 2s ease-out'
+		// theWheel.style.OTransition = 'all 2s ease-out'
 		theWheel.style.OTransform = `rotate(${spinRange}deg)`
 	} else {
-		theWheel.style.transition = 'all 2s ease-out'
+		// theWheel.style.transition = 'all 2s ease-out'
         theWheel.style.transform = `rotate(${spinRange}deg)`
 	}
 }
@@ -284,3 +285,6 @@ function clockTimer() {
       }
   }
 }
+
+
+

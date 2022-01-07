@@ -27,10 +27,19 @@
 }
 
 .wheel {
+    display: block;
     height: 100px;
     width: 100px;
+    -webkit-transition: all 5s ease-out;
+    transition: all 2s ease-out;
 }
 
+#testing{
+    width: 200px;
+    height: 200px;
+    background-color: brown;
+    margin: auto;    
+}
 .wheel-holder{
     display: flex;
     flex-direction: column;
