@@ -166,8 +166,8 @@ for(let i=0; i<wheelData.length; i++) {
         clockTimer()
         isTimer = true
     }
-    let number = await wheelPicker()
-    spunWheel.push(number)
+    let number = await wheelPicker() // change the response to a specific number in server.js                                        
+    spunWheel.push(number)             // to force a jackpot to see the lights flicker
     button.style.display = 'none'
     spinRange = Math.floor(wheelPositions[number] + Math.random() * 90)
     if(navigator.userAgent.match("Chrome")){
@@ -208,7 +208,6 @@ function spun(array) {
             spunWheel = []
         } else {
             console.log("Try again")
-            spunWheel = []
             console.log(spunWheel)
         }
     } else {}      

@@ -6,8 +6,8 @@ app.use(express.json());
 app.use(cors());
 
 function numberPicker(req, res) {
-  // const number = Math.floor((Math.random() * 4))
-  const selection = {POSITION: 2}
+  const number = Math.floor((Math.random() * 4))
+  const selection = {POSITION: number}
   res.json(selection)
 }
 
