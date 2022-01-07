@@ -171,19 +171,19 @@ for(let i=0; i<wheelData.length; i++) {
     button.style.display = 'none'
     spinRange = Math.floor(wheelPositions[number] + Math.random() * 90)
     if(navigator.userAgent.match("Chrome")){
-		// theWheel.style.WebkitTransition = 'all 2s ease-out'
-		theWheel.style.webkitTransform = `rotate(${spinRange}deg)`
+		theWheel.style.WebkitTransition = 'all 2s ease-out'
+		theWheel.style.WebkitTransform = `rotate(${spinRange}deg)`
 	} else if(navigator.userAgent.match("Firefox")){
-		// theWheel.style.MozTransition = 'all 2s ease-out'
+		theWheel.style.MozTransition = 'all 2s ease-out'
 		theWheel.style.MozTransform = `rotate(${spinRange}deg)`
 	} else if(navigator.userAgent.match("MSIE")){
-		// theWheel.style.msTransition = 'all 2s ease-out'
+		theWheel.style.msTransition = 'all 2s ease-out'
 		theWheel.style.msTransform = `rotate(${spinRange}deg)`
 	} else if(navigator.userAgent.match("Opera")){
-		// theWheel.style.OTransition = 'all 2s ease-out'
+		theWheel.style.OTransition = 'all 2s ease-out'
 		theWheel.style.OTransform = `rotate(${spinRange}deg)`
 	} else {
-		// theWheel.style.transition = 'all 2s ease-out'
+		theWheel.style.transition = 'all 2s ease-out'
         theWheel.style.transform = `rotate(${spinRange}deg)`
 	}
 }
@@ -225,19 +225,19 @@ function resetWheel() {
     const currentSpinRange = 0
     wheels.forEach((theWheel) => {
         if(navigator.userAgent.match("Chrome")){
-            theWheel.style.WebkitTransition = 'all 1s ease-out'
-            theWheel.style.WebkitTransform = `rotate(${currentSpinRange}deg)`
+            // theWheel.style.WebkitTransition = 'all 1s ease-out'
+            theWheel.style.webkitTransform = `rotate(${currentSpinRange}deg)`
         } else if(navigator.userAgent.match("Firefox")){
-            theWheel.style.MozTransition = 'all 1s ease-out'
+            // theWheel.style.MozTransition = 'all 1s ease-out'
             theWheel.style.MozTransform = `rotate(${currentSpinRange}deg)`
         } else if(navigator.userAgent.match("MSIE")){
-            theWheel.style.msTransition = 'all 1s ease-out'
+            // theWheel.style.msTransition = 'all 1s ease-out'
             theWheel.style.msTransform = `rotate(${currentSpinRange}deg)`
         } else if(navigator.userAgent.match("Opera")){
-            theWheel.style.OTransition = 'all 1s ease-out'
+            // theWheel.style.OTransition = 'all 1s ease-out'
             theWheel.style.OTransform = `rotate(${currentSpinRange}deg)`
         } else {
-            theWheel.style.transition = 'all 1s ease-out'
+            // theWheel.style.transition = 'all 1s ease-out'
             theWheel.style.transform = `rotate(${currentSpinRange}deg)`
         }
     })
@@ -288,3 +288,114 @@ function clockTimer() {
 
 
 
+const testView = new Application ({
+    backgroundColor: 333,
+    height: 200,
+    width: 200,
+})
+
+testing.appendChild(testView.view)
+
+const marker = new Sprite.from(wheelData[0].url)
+const testWheel = new Sprite.from(wheelData[1].url)
+const testButton = new Sprite.from(wheelData[2].url)
+marker.position.set(80, -10)
+marker.height = 50
+marker.width = 20
+
+testWheel.position.set(92, 100)
+testButton.position.set(50,180)
+testWheel.height = 100
+testWheel.width = 100
+testButton.height = 20
+testButton.width = 100
+testWheel.anchor.set(0.5)
+
+
+// let spinTest = setInterval(testSpin, 10)
+
+function testSpin() {
+    if(testWheel.angle < 360) {
+        testWheel.rotation +=0.3
+        console.log(testWheel.angle)
+    } else if(testWheel.angle > 360 && testWheel.angle < 700) {
+        testWheel.rotation +=0.28
+        console.log(testWheel.angle)
+    } else if (testWheel.angle > 700 && testWheel.angle < 1020) {
+        testWheel.rotation +=0.26
+        console.log(testWheel.angle)
+    } else if (testWheel.angle > 1020 && testWheel.angle < 1320 ) {
+        testWheel.rotation +=0.24
+        console.log(testWheel.angle)
+    } else if (testWheel.angle > 1320 && testWheel.angle < 1600 ) {
+        testWheel.rotation +=0.22
+        console.log(testWheel.angle)
+    } else if (testWheel.angle > 1600 && testWheel.angle < 1860 ) {
+        testWheel.rotation +=0.20
+        console.log(testWheel.angle)
+    } else if (testWheel.angle > 1860 && testWheel.angle < 2100 ) {
+        testWheel.rotation +=0.18
+        console.log(testWheel.angle)
+    } else if (testWheel.angle > 2100 && testWheel.angle < 2320 ) {
+        testWheel.rotation +=0.16
+        console.log(testWheel.angle)
+    } else if (testWheel.angle > 4800 && testWheel.angle < 4900 ) {
+        testWheel.rotation +=0.14
+        console.log(testWheel.angle)
+    } else if (testWheel.angle > 4800 && testWheel.angle < 4900 ) {
+        testWheel.rotation +=0.12
+        console.log(testWheel.angle)
+    }  else if (testWheel.angle > 4800 && testWheel.angle < 4900 ) {
+        testWheel.rotation +=0.1
+        console.log(testWheel.angle)
+    }  else if (testWheel.angle > 4800 && testWheel.angle < 4900 ) {
+        testWheel.rotation +=0.08
+        console.log(testWheel.angle)
+    }  else if (testWheel.angle > 4800 && testWheel.angle < 4900 ) {
+        testWheel.rotation +=0.06
+        console.log(testWheel.angle)
+    }  else if (testWheel.angle > 4800 && testWheel.angle < 4900 ) {
+        testWheel.rotation +=0.04
+        console.log(testWheel.angle)
+    }  else if (testWheel.angle > 4800 && testWheel.angle < 4900 ) {
+        testWheel.rotation +=0.02
+        console.log(testWheel.angle)
+    }  else {
+        clearInterval(spinTest)
+    }
+    
+}
+
+let lesser = 360
+let theDenominator = 340
+let degree = 0.3
+
+function spanner() {
+    let spinTest = setInterval(() => {
+        spinnerRedo(lesser, theDenominator, testWheel, degree, spinTest)
+    }, 100)
+}
+
+window.addEventListener('click', spanner)
+function spinnerRedo(lesser, denominator, sprite, degree, spinTest) {
+    if(degree <= 0) {
+        clearInterval(spinTest)
+        return
+    } else if(sprite.angle < lesser) {
+        sprite.rotation += degree
+        // console.log(sprite.angle)
+    } else if(sprite.angle > lesser) {
+        lesser = lesser + denominator 
+        // console.log(lesser)       
+        degree -= 0.02
+        console.log(degree)
+        sprite.rotation += degree
+        denominator -= 20
+        spinnerRedo(lesser, denominator, sprite, degree, spinTest)
+    }
+}
+
+
+testView.stage.addChild(marker)
+testView.stage.addChild(testWheel)
+testView.stage.addChild(testButton)
