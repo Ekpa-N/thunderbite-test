@@ -57,13 +57,8 @@ export function makeSpinners(array, buttonDiv, wheelDiv) {
     buttonDiv.appendChild(spinner)
 }
 
-export function jackpot(spritesArray, wheelElements, flicker) {
+export function jackpot(spritesArray, flicker) {
     let jackpotCounter = 0
-    wheelElements.forEach((item) => {
-        item.name === 'button' ?
-        item.style.display = 'none' :
-        null
-    })
     spritesArray.forEach(item => item.sprite.alpha = 0)
     let jackpotDisplay = setInterval(() => {
         if(jackpotCounter < 15) {
@@ -72,11 +67,11 @@ export function jackpot(spritesArray, wheelElements, flicker) {
         } else if(jackpotCounter === 15) {
             spritesArray.forEach(sprite => flicker(sprite))
             clearInterval(jackpotDisplay)
-            wheelElements.forEach((item) => {
-                item.name === 'button' ?
-                item.style.display = 'inline-block' :
-                null
-            })
+            // wheelElements.forEach((item) => {
+            //     item.name === 'button' ?
+            //     item.style.display = 'inline-block' :
+            //     null
+            // })
         }
              
     }, 180);
