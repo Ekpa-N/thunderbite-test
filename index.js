@@ -21,7 +21,8 @@ let counter = 5,
     spritesArray = [],
     secs = 4,
     msHuns = 10,
-    canSpin = true
+    canSpin = true,
+    makeJackpot = true
 
 
 //creating sprites and storing in array
@@ -209,9 +210,12 @@ function spun(array, aNumber) {
     if (array.length === 3) {
         if (array[0] === array[1] && array[0] === array[2]) {
             setTimeout(()=>{isTimer = false},100)
-            setTimeout(()=>{
-                jackpot(spritesArray, flicker)
-            },1500)
+            if(makeJackpot) {
+                setTimeout(()=>{
+                    jackpot(spritesArray, flicker)
+                },1500)
+                makeJackpot = false
+            }
             setTimeout(()=>{
                 msHundreds.innerText =  '00'
                 seconds.innerText = '0'
@@ -272,7 +276,8 @@ function resetWheel() {
         buttons.forEach((button, index) => {
             button.style.display = 'inline-block'
         })
-    }, 2000)
+          makeJackpot = true
+    }, 3000)
 }
 
 
