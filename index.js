@@ -193,6 +193,8 @@ let canSpin = true
 buttonSprites.forEach((button, index)=>{
     button.on('touchstart', (e)=>{
         spin(theDenominator, wheelSprites[index], button, degree)});
+      button.on('mousedown', (e)=>{
+        spin(theDenominator, wheelSprites[index], button, degree)});
 })
 
 async function spin(denom, sprite, button, deg ) {
@@ -277,6 +279,8 @@ function resetWheel() {
         button.alpha = 1
         button.on('touchstart', (e)=>{
             spin(theDenominator, wheelSprites[index], button, degree)})
+          button.on('mousedown', (e)=>{
+        spin(theDenominator, wheelSprites[index], button, degree)});
     })
     setTimeout(()=>{
         canSpin = true
