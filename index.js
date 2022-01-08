@@ -196,7 +196,7 @@ buttonSprites.forEach((button, index)=>{
 })
 
 async function spin(denom, sprite, button, deg ) {
-    let number = await wheelPicker()
+    let number = 2 // await wheelPicker()
     let spinTest = setInterval(() => {
         spinnerRedo(wheelPositions[number], denom, sprite, deg, spinTest, number)
     }, 10)
