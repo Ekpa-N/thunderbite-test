@@ -166,7 +166,7 @@ for(let i=0; i<wheelData.length; i++) {
         clockTimer()
         isTimer = true
     }
-    let number = await wheelPicker() // change the response to a specific number in server.js                                        
+    let number = 3 // await wheelPicker() // change the response to a specific number in server.js                                        
     spunWheel.push(number)             // to force a jackpot to see the lights flicker
     button.style.display = 'none'
     spinRange = Math.floor(wheelPositions[number] + Math.random() * 90)
