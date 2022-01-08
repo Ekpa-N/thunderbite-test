@@ -21,7 +21,8 @@ let counter = 5,
     spritesArray = [],
     secs = 4,
     msHuns = 10,
-    canSpin = true
+    canSpin = true,
+    makeJackpot = true
 
 
 //creating sprites and storing in array
@@ -163,30 +164,31 @@ for(let i=0; i<wheelData.length; i++) {
 
 // SPIN FUNCTION
     async function spin(e, theWheel, button) {
-    if(!isTimer) {
-        clockTimer()
-        isTimer = true
-    }
-    let number = 3 // await wheelPicker() // change the response to a specific number in server.js                                        
-    spunWheel.push(number)             // to force a jackpot to see the lights flicker
-    button.style.display = 'none'
-    spinRange = Math.floor(wheelPositions[number] + Math.random() * 90)
-    if(navigator.userAgent.match("Chrome")){
-		theWheel.style.WebkitTransition = 'all 2s ease-out'
-		theWheel.style.WebkitTransform = `rotate(${spinRange}deg)`
-	} else if(navigator.userAgent.match("Firefox")){
-		theWheel.style.MozTransition = 'all 2s ease-out'
-		theWheel.style.MozTransform = `rotate(${spinRange}deg)`
-	} else if(navigator.userAgent.match("MSIE")){
-		theWheel.style.msTransition = 'all 2s ease-out'
-		theWheel.style.msTransform = `rotate(${spinRange}deg)`
-	} else if(navigator.userAgent.match("Opera")){
-		theWheel.style.OTransition = 'all 2s ease-out'
-		theWheel.style.OTransform = `rotate(${spinRange}deg)`
-	} else {
-		theWheel.style.transition = 'all 2s ease-out'
-        theWheel.style.transform = `rotate(${spinRange}deg)`
-	}
+        if(canSpin) {
+            if(!isTimer) {
+                clockTimer()
+            }
+           let number = 2 // await wheelPicker() // change the response to a specific number in server.js 
+           button.setAttribute("data-spin", number.toString())                                        
+            button.style.display = 'none'
+            spinRange = Math.floor(wheelPositions[number] + Math.random() * 90)
+            if(navigator.userAgent.match("Chrome")){
+                theWheel.style.WebkitTransition = 'all 2s ease-out'
+                theWheel.style.WebkitTransform = `rotate(${spinRange}deg)`
+            } else if(navigator.userAgent.match("Firefox")){
+                theWheel.style.MozTransition = 'all 2s ease-out'
+                theWheel.style.MozTransform = `rotate(${spinRange}deg)`
+            } else if(navigator.userAgent.match("MSIE")){
+                theWheel.style.msTransition = 'all 2s ease-out'
+                theWheel.style.msTransform = `rotate(${spinRange}deg)`
+            } else if(navigator.userAgent.match("Opera")){
+                theWheel.style.OTransition = 'all 2s ease-out'
+                theWheel.style.OTransform = `rotate(${spinRange}deg)`
+            } else {
+                theWheel.style.transition = 'all 2s ease-out'
+                theWheel.style.transform = `rotate(${spinRange}deg)`
+            }
+        }    
 }
 
 // adding event listeners to wheels and buttons
@@ -201,16 +203,21 @@ wheelElements.forEach((item, index) => {
     }
 })
 
+
 // checking a wheel spin has ended
 function spun(array, aNumber) { 
     array.push(aNumber)
     console.log(array)
     if (array.length === 3) {
+        
         if (array[0] === array[1] && array[0] === array[2]) {
             setTimeout(()=>{isTimer = false},100)
-            setTimeout(()=>{
-                jackpot(spritesArray, flicker)
-            },1500)
+            if(makeJackpot) {
+                setTimeout(()=>{
+                    jackpot(spritesArray, flicker)
+                },1500)
+                makeJackpot = false
+            }
             setTimeout(()=>{
                 msHundreds.innerText =  '00'
                 seconds.innerText = '0'
@@ -237,8 +244,9 @@ function spun(array, aNumber) {
     } else {}      
 }
 
+
 // reset function to reset all wheels
-function resetWheel() {
+function resetWheel() {    
     canSpin = false
     let wheels = []
     let buttons = []
@@ -271,7 +279,9 @@ function resetWheel() {
         buttons.forEach((button, index) => {
             button.style.display = 'inline-block'
         })
-    }, 2000)
+        makeJackpot=true
+    }, 3000)
+
 }
 
 
