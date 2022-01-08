@@ -163,30 +163,31 @@ for(let i=0; i<wheelData.length; i++) {
 
 // SPIN FUNCTION
     async function spin(e, theWheel, button) {
-    if(!isTimer) {
-        clockTimer()
-        isTimer = true
-    }
-    let number = 3 // await wheelPicker() // change the response to a specific number in server.js                                        
-    spunWheel.push(number)             // to force a jackpot to see the lights flicker
-    button.style.display = 'none'
-    spinRange = Math.floor(wheelPositions[number] + Math.random() * 90)
-    if(navigator.userAgent.match("Chrome")){
-		theWheel.style.WebkitTransition = 'all 2s ease-out'
-		theWheel.style.WebkitTransform = `rotate(${spinRange}deg)`
-	} else if(navigator.userAgent.match("Firefox")){
-		theWheel.style.MozTransition = 'all 2s ease-out'
-		theWheel.style.MozTransform = `rotate(${spinRange}deg)`
-	} else if(navigator.userAgent.match("MSIE")){
-		theWheel.style.msTransition = 'all 2s ease-out'
-		theWheel.style.msTransform = `rotate(${spinRange}deg)`
-	} else if(navigator.userAgent.match("Opera")){
-		theWheel.style.OTransition = 'all 2s ease-out'
-		theWheel.style.OTransform = `rotate(${spinRange}deg)`
-	} else {
-		theWheel.style.transition = 'all 2s ease-out'
-        theWheel.style.transform = `rotate(${spinRange}deg)`
-	}
+        if(canSpin) {
+            if(!isTimer) {
+                clockTimer()
+            }
+           let number = 2 // await wheelPicker() // change the response to a specific number in server.js 
+           button.setAttribute("data-spin", number.toString())                                        
+            button.style.display = 'none'
+            spinRange = Math.floor(wheelPositions[number] + Math.random() * 90)
+            if(navigator.userAgent.match("Chrome")){
+                theWheel.style.WebkitTransition = 'all 2s ease-out'
+                theWheel.style.WebkitTransform = `rotate(${spinRange}deg)`
+            } else if(navigator.userAgent.match("Firefox")){
+                theWheel.style.MozTransition = 'all 2s ease-out'
+                theWheel.style.MozTransform = `rotate(${spinRange}deg)`
+            } else if(navigator.userAgent.match("MSIE")){
+                theWheel.style.msTransition = 'all 2s ease-out'
+                theWheel.style.msTransform = `rotate(${spinRange}deg)`
+            } else if(navigator.userAgent.match("Opera")){
+                theWheel.style.OTransition = 'all 2s ease-out'
+                theWheel.style.OTransform = `rotate(${spinRange}deg)`
+            } else {
+                theWheel.style.transition = 'all 2s ease-out'
+                theWheel.style.transform = `rotate(${spinRange}deg)`
+            }
+        }    
 }
 
 // adding event listeners to wheels and buttons
@@ -315,6 +316,3 @@ function clockTimer() {
       }
   }
 }
-
-
-
