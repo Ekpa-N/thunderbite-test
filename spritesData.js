@@ -386,16 +386,22 @@ export const wheelData = [
     {
         url: './img/marker.png',
         name:'marker', 
-        class: 'marker'      
+        class: 'marker',
+        height: 40,      
+        width: 20,      
     },
     {
         url: './img/wheel.png',
         name:'wheel',
-        class: 'wheel'
+        class: 'wheel',
+        height: 80,      
+        width: 80,
     },
     {
         url: './img/btn-spin.png',
         name:'button',
-        class: 'wheel'
+        class: 'wheel',
+        height: 20,      
+        width: 70,
     },    
 ]

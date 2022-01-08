@@ -3,7 +3,6 @@ import{ mobileLargeView, mobileView, tabletView, laptopView } from './functions/
 import { jackpot, flicker, spriteMaker } from "./functions/effects.js"
 import { spriteData, wheelData } from "./spritesData.js"
 
-
 // dom elements
 const wheelDiv = document.getElementById("wheel-div"),
       canvas = document.getElementById("canvas-one"),
@@ -19,7 +18,7 @@ Sprite = PIXI.Sprite
 // utility variables
 let counter = 5,
     spritesArray = [],
-    secs = 5,
+    secs = 7,
     msHuns = 10
 
 
@@ -32,6 +31,14 @@ const app = new Application ({
     autoResize: true,
     backgroundColor: 333,
 })
+
+const wheelCanvas = new Application({
+    backgroundColor: 333,
+    width: 350,
+    height: 150,
+})
+
+wheelDiv.appendChild(wheelCanvas.view)
 
 // Adding resize event listener for responsiveness
 window.addEventListener('resize',resize)
@@ -139,110 +146,141 @@ function renderLetters() {
 }
 
 
+
+
 // setting up the spinners
 let spinRange = 0
 let spunWheel = []
-const wheelPositions = [5403, 5493, 5583, 5673]
+const wheelPositions = [5303, 5493, 5583, 5673]
 let isTimer = false
 
-// creating wheels
-for(let i=0; i<wheelData.length; i++) {
-    let wheelHolder = document.createElement('div')
-    wheelHolder.classList.add("wheel-holder")
-    wheelData.map((data)=> {
-        let img = document.createElement("img")
-        img.src = data.url
-        img.name = data.name
-        img.classList.add(data.class)
-        wheelHolder.appendChild(img)
+const wheelSpritePositions = [
+    [[32, -8],[43, 75],[10, 125]],
+    [[165, -8],[175, 75],[140, 125]],
+    [[300, -8],[310, 75],[275, 125]]
+]
+
+let wheelSprites = [],
+    buttonSprites = []
+
+
+for(let i=0; i<wheelSpritePositions.length; i++) {
+    let counter = 0
+    wheelData.forEach((wheel) => {
+        let sprite = new Sprite.from(wheel.url)
+        sprite.height = wheel.height
+        sprite.width = wheel.width
+        sprite.position.set(wheelSpritePositions[i][counter][0],wheelSpritePositions[i][counter][1])
+        counter += 1
+        wheel.name === 'wheel' ?
+        (wheelSprites.push(sprite),
+        sprite.anchor.set(0.5)) :
+        wheel.name === 'button' ? 
+        (buttonSprites.push(sprite),
+        sprite.interactive = true,
+        sprite.buttonMode = true) :
+        null    
+        wheelCanvas.stage.addChild(sprite)
     })
-    wheelDiv.appendChild(wheelHolder)
 }
 
 
-// SPIN FUNCTION
-    async function spin(e, theWheel, button) {
-    if(!isTimer) {
-        clockTimer()
+let theDenominator = 370
+let degree = 0.3 
+let isSpinning = false
+let canSpin = true
+
+buttonSprites.forEach((button, index)=>{
+    button.on('touchstart', (e)=>{
+        spin(theDenominator, wheelSprites[index], button, degree)});
+})
+
+async function spin(denom, sprite, button, deg ) {
+    let number = await wheelPicker()
+    let spinTest = setInterval(() => {
+        spinnerRedo(wheelPositions[number], denom, sprite, deg, spinTest, number)
+    }, 10)
+      if(!isTimer) {
+        clockTimer(spinTest)
         isTimer = true
     }
-    let number = await wheelPicker() // change the response to a specific number in server.js                                        
-    spunWheel.push(number)             // to force a jackpot to see the lights flicker
-    button.style.display = 'none'
-    spinRange = Math.floor(wheelPositions[number] + Math.random() * 90)
-    if(navigator.userAgent.match("Chrome")){
-		theWheel.style.WebkitTransition = 'all 2s ease-out'
-		theWheel.style.WebkitTransform = `rotate(${spinRange}deg)`
-	} else if(navigator.userAgent.match("Firefox")){
-		theWheel.style.MozTransition = 'all 2s ease-out'
-		theWheel.style.MozTransform = `rotate(${spinRange}deg)`
-	} else if(navigator.userAgent.match("MSIE")){
-		theWheel.style.msTransition = 'all 2s ease-out'
-		theWheel.style.msTransform = `rotate(${spinRange}deg)`
-	} else if(navigator.userAgent.match("Opera")){
-		theWheel.style.OTransition = 'all 2s ease-out'
-		theWheel.style.OTransform = `rotate(${spinRange}deg)`
-	} else {
-		theWheel.style.transition = 'all 2s ease-out'
-        theWheel.style.transform = `rotate(${spinRange}deg)`
-	}
+    button.alpha = 0
+    button.removeAllListeners()   
+    console.log(number) 
 }
 
-// adding event listeners to wheels and buttons
-const wheelElements = Array.from(document.getElementsByClassName("wheel"))
-wheelElements.forEach((item, index) => {
-    if(item.name === 'button') {
-        item.addEventListener('click', (e) => spin(e, wheelElements[index - 1], item))
-    } else {
-        item.addEventListener('transitionend', () => {spun(spunWheel)})
+function spinnerRedo(lesser, denominator, sprite, degree, spinTest, number) {
+    if(canSpin === false) {
+        sprite.angle = 0
+        clearInterval(spinTest)
+    } else if(degree <= 0) {
+        clearInterval(spinTest)
+        console.log(number)
+        spunWheel.push(number)
+        spun(spunWheel)
+        // return
+    } else if(sprite.angle < lesser) {
+        sprite.rotation += degree
+        // console.log(sprite.angle)
+    } else if(sprite.angle >= lesser) {
+        lesser = lesser + denominator 
+        // console.log(lesser)       
+        degree -= 0.01
+        sprite.rotation += degree
+        denominator -= 1
+        spinnerRedo(lesser, denominator, sprite, degree, spinTest, number)
     }
-})
+}
+
 
 // checking a wheel spin has ended
 function spun(array) {
     if (array.length === 3) {
-        if (array[0] === array[1] && array[0] === array[2]) {
-            setTimeout(()=>{
-                jackpot(spritesArray, wheelElements, flicker)
-            },1500)
-            spunWheel = []
+        if (array[0] === array[1] && array[0] === array[2]) {                 
+                setTimeout(()=>{jackpot(spritesArray, flicker)}, 1000) 
+                setTimeout(()=>{isTimer = false},100)
+                setTimeout(()=>{
+                    msHundreds.innerText =  '00'
+                    seconds.innerText = '0'
+                    msHuns = 10
+                    secs = 10          
+                    resetWheel()
+                    isTimer = false
+                }, 4536)
+                console.log(spunWheel)          
+            // spunWheel = []
         } else {
+            setTimeout(()=>{isTimer = false},100)
+                setTimeout(()=>{
+                    msHundreds.innerText =  '00'
+                    seconds.innerText = '0'
+                    msHuns = 10
+                    secs = 10          
+                    resetWheel()
+                    isTimer = false
+                }, 2000)
+                console.log(spunWheel) 
             console.log("Try again")
-            console.log(spunWheel)
+            // spunWheel = []
         }
-    } else {}      
+    } else {console.log("Spin another")}      
 }
 
 // reset function to reset all wheels
 function resetWheel() {
-    let wheels = []
-    let buttons = []
-    wheelElements.map((item) => {
-        item.name === "wheel" ?
-        wheels.push(item) : buttons.push(item)
+        canSpin = false
+        wheelSprites.forEach((wheel)=> {
+        wheel.angle = 0
     })
-    const currentSpinRange = 0
-    wheels.forEach((theWheel) => {
-        if(navigator.userAgent.match("Chrome")){
-            // theWheel.style.WebkitTransition = 'all 1s ease-out'
-            theWheel.style.webkitTransform = `rotate(${currentSpinRange}deg)`
-        } else if(navigator.userAgent.match("Firefox")){
-            // theWheel.style.MozTransition = 'all 1s ease-out'
-            theWheel.style.MozTransform = `rotate(${currentSpinRange}deg)`
-        } else if(navigator.userAgent.match("MSIE")){
-            // theWheel.style.msTransition = 'all 1s ease-out'
-            theWheel.style.msTransform = `rotate(${currentSpinRange}deg)`
-        } else if(navigator.userAgent.match("Opera")){
-            // theWheel.style.OTransition = 'all 1s ease-out'
-            theWheel.style.OTransform = `rotate(${currentSpinRange}deg)`
-        } else {
-            // theWheel.style.transition = 'all 1s ease-out'
-            theWheel.style.transform = `rotate(${currentSpinRange}deg)`
-        }
+    spunWheel = []
+    buttonSprites.forEach((button, index) => {
+        button.alpha = 1
+        button.on('touchstart', (e)=>{
+            spin(theDenominator, wheelSprites[index], button, degree)})
     })
-    buttons.forEach((button, index) => {
-        button.style.display = 'inline-block'
-    })
+    setTimeout(()=>{
+        canSpin = true
+    },11)
 }
 
 
@@ -257,12 +295,14 @@ async function wheelPicker()  {
 
 
 // Countdown Timer
-function clockTimer() { 
+function clockTimer(spinTest) { 
     isTimer = true
     seconds.innerText = secs
   let microTens = setInterval(secondsCounter, 100)
   function secondsCounter() {
-      if(msHuns === 10) {
+      if(!isTimer) {
+        clearInterval(microTens)
+      } else if(msHuns === 10) {
         msHundreds.innerText = msHuns
         msHuns -= 1
       } else if(msHuns > 0 && msHuns <= 10 && secs >= 0) {
@@ -277,13 +317,13 @@ function clockTimer() {
         msHundreds.innerText =  '00'
         seconds.innerText = '0'
           msHuns = 10
-          secs = 4
+          secs = 10
           clearInterval(microTens)
+          buttonSprites.forEach(button => clearInterval(spinTest))
           resetWheel()
           isTimer = false
       }
   }
 }
-
 
 
