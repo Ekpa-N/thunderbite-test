@@ -168,7 +168,7 @@ for(let i=0; i<wheelData.length; i++) {
             if(!isTimer) {
                 clockTimer()
             }
-           let number = 2 // await wheelPicker() // change the response to a specific number in server.js 
+           let number = await wheelPicker() // change the response to a specific number in server.js 
            button.setAttribute("data-spin", number.toString())                                        
             button.style.display = 'none'
             spinRange = Math.floor(wheelPositions[number] + Math.random() * 90)
