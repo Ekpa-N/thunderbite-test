@@ -13,6 +13,6 @@ function numberPicker(req, res) {
 
 // endpoint to get wheel position
 app.get('/spinner', numberPicker);
-app.listen(5000, () => console.log(
-  'server running',
-));
+app.listen(process.env.port || 5000, () => {
+  console.log('server running')
+});
